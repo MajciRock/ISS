@@ -1,4 +1,11 @@
-import { IsDateString, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import {
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class UpdateMovieDto {
   @IsOptional()
@@ -15,4 +22,7 @@ export class UpdateMovieDto {
   @Min(1)
   @Max(10)
   rating?: number;
+  @IsOptional()
+  @IsNumber()
+  genre_id?: number;
 }
