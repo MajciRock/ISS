@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { UserRegisterDto } from './user-register.dto';
 import { UserLoginDto } from './user-login.dto';
 import * as bcrypt from 'bcrypt';
+import { User } from '../users/entity/user.entity';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -17,9 +18,9 @@ export class AuthService {
   }
 
   async validateUser(userLoginDto: UserLoginDto) {
-    const user = await this.userService.findByEmail(userLoginDto.email);
+    const user: User = await this.userService.findByEmail(userLoginDto.email);
     if (user && (await bcrypt.compare(userLoginDto.password, user.password))) {
-      //vračamo še password od userja (pazi glede varnosti)
+      //pazi, ker vračaš še password (varnostna luknja)
       return user;
     }
     throw new UnauthorizedException('Bad login');
@@ -27,9 +28,9 @@ export class AuthService {
 
   async login(userLoginDto: UserLoginDto) {
     const user = await this.validateUser(userLoginDto);
-    const paylaod = { email: user.email, sub: user.id };
+    const payload = { email: user.email, sub: user.id };
     return {
-      accessToken: this.jwtService.sign(paylaod),
+      access_token: this.jwtService.sign(payload),
     };
   }
 }

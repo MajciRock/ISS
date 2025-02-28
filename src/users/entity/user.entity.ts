@@ -3,11 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
 import * as bcrypt from 'bcrypt';
+import { Movie } from '../../movies/entities/movie';
 
 @Entity('users')
 export class User {
@@ -21,12 +22,15 @@ export class User {
   firstName: string;
   @Column()
   lastName: string;
-  @Column()
-  avatar: string;
+  @Column({ nullable: true })
+  avatar?: string;
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Movie, (movie) => movie.user)
+  movies: Movie[];
 
   @BeforeInsert()
   async hashPassword() {

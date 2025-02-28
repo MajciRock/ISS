@@ -13,11 +13,11 @@ export class UserRegisterDto {
   @IsNotEmpty()
   @IsStrongPassword()
   password: string;
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   firstName: string;
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   lastName: string;
   @IsOptional()
   avatar?: string;
